@@ -1,11 +1,46 @@
 public class merge {
-  public static void mergesort(int[] data) {
-	  mergesort(data, 0, data.length - 1);
+  public static int[] mergesort(int[] data) {
+	  return mergesort(data, data.length);
 
   }
   
-  public static void mergesort(int[] data, int lo, int hi) {
-	  if (lo >= hi) {
+  public static int[] mergesort(int[] data, int hi) {
+	  if (hi <= 1) {
+		  return data;
+	  }
+	  int[] left = new int[hi/2];
+	  int[] right = new int[hi - hi/2];
+	  for (int i = 0; i < left.length; i++) {
+		  left[i] = data[i];
+	  }
+	  for (int i = 0; i < right.length; i++) {
+		  right[i] = data[i + hi/2];
+	  }
+	  return merge(mergesort(left, left.length), mergesort(right, right.length));
+  }
+  
+  public static int merge(int[] l, int[] r) {
+	  int[] ans = new int[l.length + r.length];
+	  int counter = 0;
+	  int counter2 = 0;
+	  for (int i = 0; i < ans.length; i++) {
+		  if (counter >= l.length) {
+			  counter2++;
+			  ans[i] = r[counter2];
+		  } else if (counter2 >= r.length) {
+			  counter++;
+			  ans[i] = l[counter];
+		  } else if ( l[counter] <= r[counter2]) {
+			  counter++;
+			  ans[i] = l[counter];
+		  } else {
+			  counter2++;
+			  ans[i] = r[counter2];
+		  }
+	  }
+	  return ans;
+  }
+	  /*if (lo >= hi) {
 		  return;
 	  }
 	  int pivot = (high+low) / 2;
@@ -34,5 +69,6 @@ public class merge {
 		data[i + lo] = temp[i];
 	}
 	
-  }
+  }*/
+		
 }
