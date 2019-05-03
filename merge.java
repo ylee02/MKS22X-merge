@@ -1,26 +1,56 @@
-public class merge {
-  public static int[] mergesort(int[] data) {
-	  return mergesort(data, data.length);
+import java.util.*;
+public class Merge {
+  public static void mergesort(int[] data) {
+	  mergesort(data, 0, data.length - 1);
 
   }
   
-  public static int[] mergesort(int[] data, int hi) {
-	  if (hi <= 1) {
-		  return data;
+  public static void mergesort(int[] data, int lo, int hi) {
+	  if (lo >= hi) {
+		  return;
 	  }
-	  int[] left = new int[hi/2];
-	  int[] right = new int[hi - hi/2];
-	  for (int i = 0; i < left.length; i++) {
-		  left[i] = data[i];
-	  }
-	  for (int i = 0; i < right.length; i++) {
-		  right[i] = data[i + hi/2];
-	  }
-	  return merge(mergesort(left, left.length), mergesort(right, right.length));
+	  //System.out.println(lo + " " + hi);
+	  mergesort(data, lo, (hi + lo) / 2);
+	  mergesort(data, (hi + lo) / 2 + 1, hi);
+	  merge(data, lo, hi, (hi + lo) / 2 + 1);	  
+	 
   }
   
-  public static int merge(int[] l, int[] r) {
-	  int[] ans = new int[l.length + r.length];
+  public static void merge(int[] data, int lo, int hi, int pivot) {
+	 
+	  int start = lo;
+	  int end = pivot;
+	  int[] ans = new int[hi - lo + 1];
+	   
+	  for (int i = 0; i <= hi - lo; i++) {
+		if (start != pivot && (end - 1 == hi || data[start] < data[end])) {
+			ans[i] = data[start];
+			start += 1;
+		}
+		else {
+			ans[i] = data[end];
+			end += 1;
+		}
+	}
+	//System.out.println(Arrays.toString(ans));
+	for (int i = 0; i <= hi - lo; i++) {
+		data[i + lo] = ans[i];
+	}
+	
+  }
+  /*public static void main(String[] args) {
+	  Random rand = new Random();
+	  int[] test = new int[200000];
+	  for (int i = 0; i < 200000; i++) {
+		 test[i] = rand.nextInt() % 1000;
+	  }
+	  //System.out.println(Arrays.toString(test));
+	  mergesort(test);
+	  System.out.println(Arrays.toString(test));
+  }*/
+  
+
+	  /*int[] ans = new int[l.length + r.length];
 	  int counter = 0;
 	  int counter2 = 0;
 	  for (int i = 0; i < ans.length; i++) {
@@ -39,7 +69,7 @@ public class merge {
 		  }
 	  }
 	  return ans;
-  }
+  }*/
 	  /*if (lo >= hi) {
 		  return;
 	  }
